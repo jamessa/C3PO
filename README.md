@@ -1,10 +1,10 @@
 #Hassle Free Localization
 
-After [all](https://github.com/jamessa/C3PO/blob/master/Introduction.md) these try-and-error, here's my new requirement:
+After [all](https://github.com/jamessa/C3PO/blob/master/Introduction.md) these try-and-error, here're my new requirements:
 
-1. Fully automatic and reflect to current code (because we, developers, are lazy)
-2. Only ONE set of XIB/NIB is used.
-3. Ease of localization
+1. Fully automatic and reflect to current code. ( *because we, developers, are lazy* )
+2. Only **ONE** set of XIB/NIB is used.
+3. Ease of localization. ( *one master localization strings file* )
 
 The flow becomes 
 
