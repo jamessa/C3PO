@@ -106,7 +106,7 @@ Let's check /application
 
 	Dict {
 	    FIND_MY_IPHONE_NAME_IPHONE = Find My iPhone
-	    CANT_CREATE_APPLEID_TITLE = Can‚Äôt Create Apple ID
+	    CANT_CREATE_APPLEID_TITLE = Can't Create Apple ID
 	    WHAT_IS_APPLE_ID_FMIP_IPHONE = Use Find My iPhone to locate your iPhone on a map, play a sound, or display a message.
 	    WHAT_IS_APPLE_ID_NO_FACETIME = Communicate with iMessage.
 	    ABOUT_LOCATION_SERVICES_WEATHER = Weather
