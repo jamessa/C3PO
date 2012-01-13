@@ -106,12 +106,12 @@ Let's check /application
 
 	Dict {
 	    FIND_MY_IPHONE_NAME_IPHONE = Find My iPhone
-	    CANT_CREATE_APPLEID_TITLE = Can‚Äôt Create Apple ID
+	    CANT_CREATE_APPLEID_TITLE = Can't Create Apple ID
 	    WHAT_IS_APPLE_ID_FMIP_IPHONE = Use Find My iPhone to locate your iPhone on a map, play a sound, or display a message.
 	    WHAT_IS_APPLE_ID_NO_FACETIME = Communicate with iMessage.
 	    ABOUT_LOCATION_SERVICES_WEATHER = Weather
 	    ICLOUD_BACKUP_EXPLANATION_WIFI_IPAD = Use iCloud to back up your iPad daily over Wi-Fi.
-	    WHAT_IS_CASTLE_BACKUP_DESCRIPTION_WLAN_IPAD = iCloud automatically backs up your iPad daily over WLAN when it‚Äôs connected to a power source.  Purchased music, apps, and books do not count against your 5GB of free iCloud storage.
+	    WHAT_IS_CASTLE_BACKUP_DESCRIPTION_WLAN_IPAD = iCloud automatically backs up your iPad daily over WLAN when it's connected to a power source.  Purchased music, apps, and books do not count against your 5GB of free iCloud storage.
 	    WLAN_SETTINGS = WLAN Settings
 	    FIND_MY_IPHONE_BLURB_IPOD = If you misplace your iPod touch, Find My
 	iPod touch can help you locate it on a map,
