@@ -6,7 +6,7 @@
 # and/or modify it under the terms of the Do What The Fuck You Want
 # To Public License, Version 2, as published by Sam Hocevar. See
 # http://sam.zoy.org/wtfpl/COPYING for more details.
-# 
+#
 # Localize.py - Incremental localization on XCode projects
 # João Moreno 2009
 # http://joaomoreno.com/
@@ -14,7 +14,8 @@
 from codecs import open
 from re import compile
 from copy import copy
-import io, os, sys
+import io
+import os
 
 re_translation = compile(r'^"(.+)" = "(.+)";$')
 re_comment_single = compile(r'^/\*.*\*/$')
@@ -24,11 +25,13 @@ re_widecamelcase = compile(r'(?x)( [A-Z](\S+)([A-Z](\S*))+ | ([A-Z_][A-Z_]+) )')
 
 useUTF8 = False
 
+
 def usage():
     print u"""
 Usage: Localize.py pathToYourCocoaProject
 try `localize.py --help' for more information.
 """
+
 
 class LocalizedString():
     def __init__(self, comments, translation):
@@ -37,6 +40,7 @@ class LocalizedString():
 
     def __unicode__(self):
         return u'%s%s\n' % (u''.join(self.comments), self.translation)
+
 
 class LocalizedFile():
     def __init__(self, fname=None, auto_read=False):
@@ -54,7 +58,7 @@ class LocalizedFile():
         except:
             print 'File %s does not exist.' % fname
             exit(-1)
-        
+
         line = f.readline()
         while line:
             comments = [line]
@@ -63,13 +67,13 @@ class LocalizedFile():
                 while line and not re_comment_end.match(line):
                     line = f.readline()
                     comments.append(line)
-            
+
             line = f.readline()
             if line and re_translation.match(line):
                 translation = line
             else:
                 raise Exception('invalid file')
-            
+
             line = f.readline()
             while line and line == u'\n':
                 line = f.readline()
@@ -84,7 +88,7 @@ class LocalizedFile():
         fname = self.fname if fname == None else fname
         try:
             f = open(fname, encoding='utf_16', mode='w')
-            
+
         except:
             print 'Couldn\'t open file %s.' % fname
             exit(-1)
@@ -98,7 +102,7 @@ class LocalizedFile():
         merged = LocalizedFile()
 
         for string in new.strings:
-            if self.strings_d.has_key(string.key):
+            if string.key in self.strings_d:
                 new_string = copy(self.strings_d[string.key])
                 new_string.comments = string.comments
                 string = new_string
@@ -107,6 +111,7 @@ class LocalizedFile():
             merged.strings_d[string.key] = string
 
         return merged
+
 
 def merge(merged_fname, old_fname, new_fname):
     try:
@@ -121,22 +126,22 @@ def merge(merged_fname, old_fname, new_fname):
 
 STRINGS_FILE = 'Localizable.strings'
 
+
 # use ibtool to extract localizable strings from ib files
 def export_xibs(language):
     # XIBs
     localization = open(language + os.path.sep + 'xib.strings.new', encoding='utf_16', mode='w+')
-    
+
     ibs = [name for name in os.listdir(os.getcwd()) if name.endswith('.xib') and not os.path.isdir(name)]
-    
 
     for ib in ibs:
         ib_strings = "en.lproj/" + ib + ".strings.new"
 
         # extract only if modified
-        print 'ibtool --export-strings-file "%s" "%s"' % ( ib_strings, ib )
+        print 'ibtool --export-strings-file "%s" "%s"' % (ib_strings, ib)
         # run ibtool only once per modification
         if not os.path.isfile(ib_strings) or (os.stat(ib).st_mtime > os.stat(ib_strings).st_mtime):
-            os.system('ibtool --export-strings-file "%s" "%s"' % ( ib_strings, ib ))
+            os.system('ibtool --export-strings-file "%s" "%s"' % (ib_strings, ib))
             os.system('touch %s' % ib_strings)
 
         fin = open(ib_strings, encoding='utf_16', mode='r')
@@ -149,28 +154,30 @@ def export_xibs(language):
                 wrong_key, key = translate.groups()
                 if re_widecamelcase.match(key) and not key.count(' '):
                     for comment in comments:
-                        localization.write( comment )
-                    localization.write( u'"%s" = "%s";' % (key,key) )
-                    localization.write( "\n" )
+                        localization.write(comment)
+                    localization.write(u'"%s" = "%s";' % (key, key))
+                    localization.write("\n")
                 comments = []
             else:
                 comments.append(line)
-            line = fin.readline() 
+            line = fin.readline()
     localization.close()
     return localization.name
 
+
 def concat(file1, file2):
-    io.open(file1,encoding='utf-16',mode='a').write(open(file2,encoding='utf-16').read())
+    io.open(file1, encoding='utf-16', mode='a').write(open(file2, encoding='utf-16').read())
+
 
 def localize(path):
     # init phase the new
     start_with = 'en'
-    
+
     language = start_with + '.lproj'
     original = merged = language + os.path.sep + STRINGS_FILE
     old = original + '.old'
     new = original + '.new'
-    
+
     if os.path.isfile(original):
         os.rename(original, old)
         os.system('genstrings -q -o "%s" `find . -name "*.m"`' % language)
@@ -180,16 +187,16 @@ def localize(path):
         os.system('genstrings -q -o "%s" `find . -name "*.m"`' % language)
 
     merge(merged, old, new)
-        
+
     languages = [name for name in os.listdir(path) if name.endswith('.lproj') and os.path.isdir(name) and not name.startswith('en.')]
     for language in languages:
         original = merged = language + os.path.sep + STRINGS_FILE
         old = original + '.old'
-        
+
         if os.path.isfile(original):
             os.rename(original, old)
-        
+
         merge(merged, old, new)
-        
+
 if __name__ == '__main__':
     localize(os.getcwd())
